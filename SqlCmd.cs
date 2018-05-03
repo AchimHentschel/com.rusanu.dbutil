@@ -380,8 +380,10 @@ namespace com.rusanu.DBUtil {
 				cmd.CommandTimeout = 0;
 				try {
 					LastBatch = batch;
-					cmd.ExecuteNonQuery ();
-				} catch (SqlException sqlex) {
+
+                    PerformSqlCommandExecution(cmd);
+
+                } catch (SqlException sqlex) {
 					LastException = sqlex;
 					if (false == ContinueOnError) {
 						return false;
@@ -391,5 +393,10 @@ namespace com.rusanu.DBUtil {
 			}
 			return true;
 		}
-	}
+
+        protected virtual void PerformSqlCommandExecution(SqlCommand cmd)
+        {
+            cmd.ExecuteNonQuery();
+        }
+    }
 }
